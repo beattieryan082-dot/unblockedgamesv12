@@ -9,8 +9,6 @@ export default function App() {
   const [selectedGame, setSelectedGame] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
-  const bgImage = "https://private-user-images.githubusercontent.com/159876365/477138731-0aa67016-6eaf-458a-adb2-6e31a0763ed6.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzM0Mzk2MDIsIm5iZiI6MTc3MzQzOTMwMiwicGF0aCI6Ii8xNTk4NzYzNjUvNDc3MTM4NzMxLTBhYTY3MDE2LTZlYWYtNDU4YS1hZGIyLTZlMzFhMDc2M2VkNi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMzEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDMxM1QyMjAxNDJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kOTU0OWFhOWM0ZTRiODJjOTEzMTBiZjVkNGU1OTU2ZmZmYjJhNjQ4ODA4YTMxYTQwNDE4ODczMGVhODliYzhmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.N-Wk-OWS27nv0qKDs8VTcElRGM_ZCDJUAfP55UrTiCE";
-
   const filteredGames = useMemo(() => {
     return gamesData.filter(game => 
       game.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -20,35 +18,51 @@ export default function App() {
   if (view === 'splash') {
     return (
       <div className="relative min-h-screen flex items-center justify-center bg-zinc-950 overflow-hidden">
+        {/* High-end CSS Background */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={bgImage} 
-            alt="Background" 
-            className="w-full h-full object-cover opacity-40 blur-sm scale-105"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/60 via-zinc-950/80 to-zinc-950" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.1),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.05),transparent_40%)]" />
+          <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(#333_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
         <div className="relative z-10 text-center px-4">
-          <div className="inline-block mb-6 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-medium tracking-widest uppercase">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-block mb-6 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-medium tracking-widest uppercase"
+          >
             Powered by Gemini
-          </div>
-          <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-4">
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-4"
+          >
             google ai <span className="text-emerald-500">studio</span>
-          </h1>
-          <p className="text-zinc-400 text-lg md:text-xl max-w-xl mx-auto font-light leading-relaxed">
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-zinc-400 text-lg md:text-xl max-w-xl mx-auto font-light leading-relaxed"
+          >
             The fastest way to build with Gemini. Design, prototype, and deploy AI-powered applications in minutes.
-          </p>
+          </motion.p>
           
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
             <button 
               onClick={() => setView('hub')}
               className="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-full transition-all transform hover:scale-105 shadow-lg shadow-emerald-500/20 flex items-center gap-2"
             >
               Enter Games Hub <ArrowRight className="w-5 h-5" />
             </button>
-          </div>
+          </motion.div>
         </div>
 
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
