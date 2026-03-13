@@ -1,19 +1,12 @@
-import { useState, useMemo } from 'react';
-import { Search, Gamepad2, X, Maximize2, ExternalLink, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { Gamepad2, X, Maximize2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import gamesData from './games.json';
 
 export default function App() {
   const [view, setView] = useState('splash'); // 'splash' or 'hub'
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedGame, setSelectedGame] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
-
-  const filteredGames = useMemo(() => {
-    return gamesData.filter(game => 
-      game.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
 
   if (view === 'splash') {
     return (
@@ -60,7 +53,7 @@ export default function App() {
               onClick={() => setView('hub')}
               className="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-full transition-all transform hover:scale-105 shadow-lg shadow-emerald-500/20 flex items-center gap-2"
             >
-              Enter Games Hub <ArrowRight className="w-5 h-5" />
+              Play Games <ArrowRight className="w-5 h-5" />
             </button>
           </motion.div>
         </div>
@@ -79,71 +72,45 @@ export default function App() {
             <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
               <Gamepad2 className="text-zinc-950 w-6 h-6" />
             </div>
-            <h1 className="text-xl font-bold tracking-tight hidden sm:block">
+            <h1 className="text-xl font-bold tracking-tight">
               Games<span className="text-emerald-500">Hub</span>
             </h1>
           </div>
 
-          <div className="flex-1 max-w-md relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-            <input
-              type="text"
-              placeholder="Search games..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-900 border border-white/5 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600"
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setView('splash')}
-              className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
-            >
-              Exit Hub
-            </button>
-          </div>
+          <button 
+            onClick={() => setView('splash')}
+            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+          >
+            Exit Hub
+          </button>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Games Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {filteredGames.map((game, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {gamesData.map((game, index) => (
             <motion.div
               key={game.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
               whileHover={{ y: -5 }}
               onClick={() => setSelectedGame(game)}
               className="group cursor-pointer"
             >
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-xl transition-all group-hover:border-emerald-500/50 group-hover:shadow-emerald-500/10">
+              <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-xl transition-all group-hover:border-emerald-500/50">
                 <img
                   src={game.thumbnail}
                   alt={game.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                  <span className="text-white font-semibold flex items-center gap-2">
-                    Play Now <ExternalLink className="w-4 h-4" />
-                  </span>
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 to-transparent flex items-end p-4">
+                  <span className="text-white font-bold">{game.title}</span>
                 </div>
               </div>
-              <h3 className="mt-3 font-medium text-zinc-300 group-hover:text-emerald-400 transition-colors">
-                {game.title}
-              </h3>
             </motion.div>
           ))}
         </div>
-
-        {filteredGames.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-zinc-500 text-lg">No games found matching your search.</p>
-          </div>
-        )}
       </main>
 
       {/* Game Viewer Overlay */}
@@ -167,7 +134,6 @@ export default function App() {
                 <button 
                   onClick={() => setIsFullScreen(!isFullScreen)}
                   className="p-2 hover:bg-white/5 rounded-lg transition-colors text-zinc-400 hover:text-white"
-                  title="Toggle Fullscreen"
                 >
                   <Maximize2 className="w-5 h-5" />
                 </button>
@@ -187,7 +153,7 @@ export default function App() {
               {isFullScreen && (
                 <button 
                   onClick={() => setIsFullScreen(false)}
-                  className="absolute top-4 right-4 z-10 p-2 bg-black/50 backdrop-blur-md rounded-full text-white hover:bg-black/80 transition-all"
+                  className="absolute top-4 right-4 z-10 p-2 bg-black/50 backdrop-blur-md rounded-full text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -202,20 +168,6 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <footer className="border-t border-white/5 py-12 mt-20">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-zinc-800 rounded-lg flex items-center justify-center">
-              <Gamepad2 className="text-emerald-500 w-5 h-5" />
-            </div>
-            <span className="font-bold text-zinc-400">GamesHub</span>
-          </div>
-          <p className="text-zinc-600 text-sm text-center md:text-left">
-            © 2026 GamesHub. All rights reserved. Play responsibly.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,38 +1,14 @@
 [
   {
-    "id": "2048",
-    "title": "2048",
-    "thumbnail": "https://picsum.photos/seed/2048/400/300",
-    "url": "https://play2048.co/"
+    "id": "soflo-wheelie-life",
+    "title": "SoFlo Wheelie Life",
+    "thumbnail": "https://picsum.photos/seed/wheelie/400/300",
+    "url": "https://ozgames.io/soflo-wheelie-life.embed"
   },
   {
-    "id": "tetris",
-    "title": "Tetris",
-    "thumbnail": "https://picsum.photos/seed/tetris/400/300",
-    "url": "https://tetris.com/play-tetris"
-  },
-  {
-    "id": "snake",
-    "title": "Snake",
-    "thumbnail": "https://picsum.photos/seed/snake/400/300",
-    "url": "https://www.google.com/logos/2010/pacman10-i.html"
-  },
-  {
-    "id": "flappy-bird",
-    "title": "Flappy Bird Clone",
-    "thumbnail": "https://picsum.photos/seed/flappy/400/300",
-    "url": "https://flappybird.io/"
-  },
-  {
-    "id": "minesweeper",
-    "title": "Minesweeper",
-    "thumbnail": "https://picsum.photos/seed/mines/400/300",
-    "url": "https://minesweeper.online/"
-  },
-  {
-    "id": "chess",
-    "title": "Chess",
-    "thumbnail": "https://picsum.photos/seed/chess/400/300",
-    "url": "https://www.chess.com/play/computer"
+    "id": "elife-simulator",
+    "title": "eLife Simulator",
+    "thumbnail": "https://picsum.photos/seed/elife/400/300",
+    "url": "https://ozgames.io/elife-simulator.embed"
   }
 ]
